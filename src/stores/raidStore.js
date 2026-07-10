@@ -4,8 +4,14 @@ import { defineStore } from 'pinia'
 export const useRaidStore = defineStore('raid', () => {
   const players = ref([])
 
-  function addPlayer(player) {
-    players.value.push(player)
+  function addPlayer(playerData) {
+    const newPlayer = {
+      id: Date.now(),
+      status: 'active',
+      ...playerData
+    }
+
+    players.value.push(newPlayer)
   }
 
   function removePlayer(id) {
