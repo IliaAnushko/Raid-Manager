@@ -15,7 +15,6 @@ const props = defineProps({
   }
 });
 
-// Находим текущего игрока, чтобы предзаполнить форму
 const currentEvent = eventStore.events.find(e => e.id === props.eventId);
 
 const newName = ref(currentEvent.name);

@@ -15,7 +15,6 @@ const props = defineProps({
   }
 });
 
-// Находим текущего игрока, чтобы предзаполнить форму
 const currentPlayer = raidStore.players.find(p => p.id === props.playerId);
 
 const newName = ref(currentPlayer.name);

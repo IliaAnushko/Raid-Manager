@@ -1,8 +1,13 @@
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { defineStore } from 'pinia'
 
 export const useRaidStore = defineStore('raid', () => {
-  const players = ref([])
+  const storedPlayers = localStorage.getItem('players')
+  const players = ref(storedPlayers ? JSON.parse(storedPlayers) : [])
+
+  watch(players, (state) => {
+    localStorage.setItem('players', JSON.stringify(state))
+  }, { deep: true })
 
   function addPlayer(playerData) {
     const newPlayer = {

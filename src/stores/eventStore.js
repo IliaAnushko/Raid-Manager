@@ -1,8 +1,13 @@
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { defineStore } from 'pinia'
 
 export const useEventStore = defineStore('event', () => {
-  const events = ref([])
+  const storedEvents = localStorage.getItem('events')
+  const events = ref(storedEvents ? JSON.parse(storedEvents) : [])
+
+  watch(events, (state) => {
+    localStorage.setItem('events', JSON.stringify(state))
+  }, { deep: true })
   
   function addEvent(eventData) {
     const newEvent = {
