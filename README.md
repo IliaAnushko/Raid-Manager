@@ -1,38 +1,24 @@
-# raid-manager
-
-This template should help get you started developing with Vue 3 in Vite.
-
-## Recommended IDE Setup
-
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
-
-## Recommended Browser Setup
-
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Compile and Minify for Production
-
-```sh
-npm run build
-```
+# ⚔️ Raid Manager
+**Raid Manager** — это современное веб-приложение, созданное для гильдий и статических групп в MMO-играх (в частности, Black Desert Online). Оно помогает рейд-лидерам (ПЛам) и офицерам удобно вести учет игроков, отслеживать их классы и роли, а также планировать осады и игровые события.
+## ✨ Ключевые возможности
+### 👥 Управление составом (Ростер)
+- **Учет игроков:** Создание, редактирование и удаление профилей участников.
+- **Статусы:** Удобное разделение списка на "Активных", "АФК" и "Бывших участников".
+- **Профили:** Указание никнейма, Discord-тега, уровня навыка игры.
+- **Классы BDO:** Выбор из полного актуального списка классов с учетом стоек (Традиция / Пробуждение).
+- **Мульти-роли:** Возможность назначать игроку сразу несколько ролей (ПЛ, Саппорт, МДД, РДД).
+### 📅 Управление событиями
+- Планирование осад, тренировок и сборов.
+- Указание названия, даты, времени, максимального количества слотов и текстового описания.
+### 🎨 Премиальный дизайн
+- Современный UI в стиле **Glassmorphism** (эффект матового стекла).
+- Плавные микро-анимации, градиенты и неоновые акценты.
+- Глобальная дизайн-система для идеального выравнивания элементов на всех страницах.
+### 💾 Автосохранение
+- Все данные мгновенно и автоматически сохраняются в локальное хранилище браузера (`localStorage`). При перезагрузке страницы ничего не потеряется.
+## 🛠 Технологии
+- **[Vue 3](https://vuejs.org/)** (Composition API)
+- **[Pinia](https://pinia.vuejs.org/)** (Стейт-менеджер для управления состоянием)
+- **Vue Router** (Навигация)
+- **Vite** (Сборщик)
+- **Vanilla CSS3** (Flexbox, CSS Variables, Glassmorphism)
