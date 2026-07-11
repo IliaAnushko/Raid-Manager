@@ -12,7 +12,7 @@ const isModalOpen = ref(false);
    <div class="view-container">
      <!-- Верхняя шапка -->
      <div class="header-section">
-       <div class="spacer"></div>
+       <div class="header-spacer"></div>
        <h1 class="page-title">Списки рейда</h1>
        <button class="add-btn" @click="isModalOpen = true">Добавить игрока</button>
      </div>
@@ -35,43 +35,7 @@ const isModalOpen = ref(false);
   gap: 30px;
 }
 
-.header-section {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  position: relative;
-  margin-bottom: 20px;
-}
 
-.page-title {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  font-weight: 800;
-  letter-spacing: 1px;
-}
-
-.spacer {
-  width: 170px; /* Балансирует кнопку справа для идеального центрирования заголовка */
-}
-
-.add-btn {
-  background: linear-gradient(135deg, #6e8efb, #a777e3);
-  color: white;
-  border: none;
-  padding: 12px 24px;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
-  box-shadow: 0 4px 15px rgba(167, 119, 227, 0.4);
-  transition: transform 0.2s, filter 0.2s;
-  width: 170px;
-}
-
-.add-btn:hover {
-  transform: translateY(-2px);
-  filter: brightness(1.1);
-}
 
 .lists-container {
   display: flex;
