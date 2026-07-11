@@ -20,7 +20,7 @@ const currentPlayer = raidStore.players.find(p => p.id === props.playerId);
 const newName = ref(currentPlayer.name);
 const newDiscord = ref(currentPlayer.discord || '');
 const newClass = ref(currentPlayer.characterClass);
-const newRole = ref(currentPlayer.role);
+const newRole = ref(Array.isArray(currentPlayer.role) ? [...currentPlayer.role] : (currentPlayer.role ? [currentPlayer.role] : []));
 const newSkill = ref(currentPlayer.skill);
 const newStatus = ref(currentPlayer.status || 'active');
 
@@ -111,13 +111,13 @@ function editPlayer(){
         <option>Сераф</option>
       </select>
 
-      <select v-model="newRole">
-      <option value="" disabled selected>Выберите роль</option>
-        <option>ПЛ</option>
-        <option>Саппорт</option>
-        <option>МДД</option>
-        <option>РДД</option>
-      </select>
+      <div class="roles-group">
+        <span class="roles-label">Роли:</span>
+        <label class="role-checkbox"><input type="checkbox" value="ПЛ" v-model="newRole"> ПЛ</label>
+        <label class="role-checkbox"><input type="checkbox" value="Саппорт" v-model="newRole"> Саппорт</label>
+        <label class="role-checkbox"><input type="checkbox" value="МДД" v-model="newRole"> МДД</label>
+        <label class="role-checkbox"><input type="checkbox" value="РДД" v-model="newRole"> РДД</label>
+      </div>
 
       <select v-model="newSkill">
       <option value="" disabled selected>Скилл игрока</option>

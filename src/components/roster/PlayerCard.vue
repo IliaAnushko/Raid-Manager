@@ -32,7 +32,12 @@ const player = computed(() => {
         </div>
         <div class="tags">
           <span class="tag class-tag">{{ player.characterClass }}</span>
-          <span class="tag role-tag">{{ player.role }}</span>
+          <template v-if="Array.isArray(player.role)">
+            <span v-for="r in player.role" :key="r" class="tag role-tag">{{ r }}</span>
+          </template>
+          <template v-else-if="player.role">
+            <span class="tag role-tag">{{ player.role }}</span>
+          </template>
           <span class="tag skill-tag">{{ player.skill }}</span>
         </div>
       </div>

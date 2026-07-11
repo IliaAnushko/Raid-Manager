@@ -11,7 +11,7 @@ const raidStore = useRaidStore();
 const newName = ref('');
 const newDiscord = ref('');
 const newClass = ref('');
-const newRole = ref('');
+const newRole = ref([]);
 const newSkill = ref('');
 
 function addNewPlayer(){
@@ -26,7 +26,7 @@ function addNewPlayer(){
    newName.value = '';
    newDiscord.value = '';
    newClass.value = '';
-   newRole.value = '';
+   newRole.value = [];
    newSkill.value = '';
 
    emit('close');
@@ -105,13 +105,13 @@ function addNewPlayer(){
         <option>Сераф</option>
       </select>
 
-      <select v-model="newRole">
-      <option value="" disabled selected>Выберите роль</option>
-        <option>Танк</option>
-        <option>Хил</option>
-        <option>МДД</option>
-        <option>РДД</option>
-      </select>
+      <div class="roles-group">
+        <span class="roles-label">Роли:</span>
+        <label class="role-checkbox"><input type="checkbox" value="ПЛ" v-model="newRole"> ПЛ</label>
+        <label class="role-checkbox"><input type="checkbox" value="Саппорт" v-model="newRole"> Саппорт</label>
+        <label class="role-checkbox"><input type="checkbox" value="МДД" v-model="newRole"> МДД</label>
+        <label class="role-checkbox"><input type="checkbox" value="РДД" v-model="newRole"> РДД</label>
+      </div>
 
       <select v-model="newSkill">
       <option value="" disabled selected>Скилл игрока</option>
