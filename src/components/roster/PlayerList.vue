@@ -24,7 +24,6 @@ const filteredPlayers = computed(() => {
          <PlayerCard v-for="player in filteredPlayers" :key="player.id" :id="player.id" />
       </div>
       
-      <!-- Пустое состояние -->
       <div v-if="filteredPlayers.length === 0" class="empty-state">
          Нет участников в этой категории
       </div>

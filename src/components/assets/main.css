@@ -1,0 +1,95 @@
+/* Глобальные стили для форм в модалках (AddPlayer, EditPlayer, AddEvent, EditEvent) */
+
+/* Base Input Styles */
+input, select, textarea {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 16px;
+  border-radius: 10px;
+  color: #fff;
+  font-size: 1.05rem;
+  font-family: inherit;
+  transition: all 0.2s ease;
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 16px;
+}
+
+input::placeholder, textarea::placeholder { color: #666; }
+
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: #a777e3;
+  background: rgba(255, 255, 255, 0.06);
+  box-shadow: 0 0 0 3px rgba(167, 119, 227, 0.2);
+}
+
+select option {
+  background: #1a1a24;
+  color: #fff;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+/* Groups and Actions */
+.input-group {
+  display: flex;
+  gap: 16px;
+}
+
+.input-group input, .input-group select {
+  flex: 1;
+  margin-bottom: 16px;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  margin-top: 15px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Buttons */
+.modal-actions button {
+  transition: all 0.2s ease;
+}
+
+.save-btn {
+  background: linear-gradient(135deg, #6e8efb, #a777e3);
+  color: white;
+  border: none;
+  padding: 14px 35px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1.05rem;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(167, 119, 227, 0.3);
+}
+
+.save-btn:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.15);
+  box-shadow: 0 6px 20px rgba(167, 119, 227, 0.5);
+}
+
+.cancel-btn {
+  background: transparent;
+  color: #aaa;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 14px 35px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1.05rem;
+  cursor: pointer;
+}
+
+.cancel-btn:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+  border-color: #fff;
+}

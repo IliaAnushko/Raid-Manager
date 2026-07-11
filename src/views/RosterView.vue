@@ -1,11 +1,8 @@
 <script setup>
 
 import { ref } from 'vue';
-import { useRaidStore } from '@/stores/raidStore';
-import AddPlayerModal from '@/components/AddPlayerModal.vue'
-import PlayerList from '@/components/PlayerList.vue'
-
-const raidStore = useRaidStore();
+import AddPlayerModal from '@/components/roster/AddPlayerModal.vue'
+import PlayerList from '@/components/roster/PlayerList.vue'
 
 const isModalOpen = ref(false);
 

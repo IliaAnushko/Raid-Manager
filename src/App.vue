@@ -2,7 +2,7 @@
 
 import { ref } from 'vue';
 import RosterView from './views/RosterView.vue'
-import SiegeView from './views/SiegeView.vue'
+import EventView from './views/EventView.vue'
 
 const currentView = ref('roster');
 
@@ -20,8 +20,8 @@ const currentView = ref('roster');
           Списки рейда
         </button>
         <button 
-          @click="currentView = 'sieges'" 
-          :class="{ active: currentView === 'sieges' }">
+          @click="currentView = 'event'" 
+          :class="{ active: currentView === 'event' }">
           Осады
         </button>
       </nav>
@@ -30,7 +30,7 @@ const currentView = ref('roster');
     <!-- Основной контент -->
     <main class="content">
       <RosterView v-if="currentView === 'roster'" />
-      <SiegeView v-if="currentView === 'sieges'" />
+      <EventView v-if="currentView === 'event'" />
     </main>
   </div>
 </template>
