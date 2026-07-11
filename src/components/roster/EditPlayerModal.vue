@@ -113,8 +113,8 @@ function editPlayer(){
 
       <select v-model="newRole">
       <option value="" disabled selected>Выберите роль</option>
-        <option>Танк</option>
-        <option>Хил</option>
+        <option>ПЛ</option>
+        <option>Саппорт</option>
         <option>МДД</option>
         <option>РДД</option>
       </select>
