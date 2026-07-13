@@ -5,11 +5,13 @@ import { useEventStore } from '@/stores/eventStore'
 import { useRaidStore } from '@/stores/raidStore'
 import EditEventModal from './EditEventModal.vue'
 import EventDetailsModal from './EventDetailsModal.vue'
+import ConfirmDelete from '../ui/ConfirmDelete.vue';
 
-const eventStore = useEventStore();
-const raidStore = useRaidStore();
-const isEditing = ref(false);
-const isDetailsOpen = ref(false);
+const eventStore = useEventStore()
+const raidStore = useRaidStore()
+const isEditing = ref(false)
+const isDetailsOpen = ref(false)
+const isDeleting = ref(false)
 
 const props = defineProps({
    id: {
@@ -88,11 +90,12 @@ const attendanceStats = computed(() => {
 
         <button @click="isEditing = true" class="icon-btn edit-btn" title="Редактировать">✏️</button>
 
-        <button @click="eventStore.removeEvent(props.id)" class="icon-btn remove-btn" title="Удалить">❌</button>
+        <button @click="isDeleting = true" class="icon-btn remove-btn" title="Удалить">❌</button>
       </div>
 
       <EditEventModal v-if="isEditing" :eventId="props.id" @close="isEditing = false" />
       <EventDetailsModal v-if="isDetailsOpen" :eventId="props.id" @close="isDetailsOpen = false" />
+      <ConfirmDelete v-if="isDeleting" :itemName="event.name" @close="isDeleting = false" @confirm="eventStore.removeEvent(props.id)" />
    </div>
 </template>
 

@@ -4,9 +4,11 @@ import { ref } from 'vue';
 import { computed } from 'vue';
 import { useRaidStore } from '@/stores/raidStore';
 import EditPlayerModal from './EditPlayerModal.vue';
+import ConfirmDelete from '../ui/ConfirmDelete.vue';
 
-const raidStore = useRaidStore();
-const isEditing = ref(false);
+const raidStore = useRaidStore()
+const isEditing = ref(false)
+const isDeleting = ref(false)
 
 const props = defineProps({
    id: {
@@ -45,10 +47,11 @@ const player = computed(() => {
       <!-- Кнопки действий -->
       <div class="card-actions">
         <button @click="isEditing = true" class="icon-btn edit-btn" title="Редактировать">✏️</button>
-        <button @click="raidStore.removePlayer(props.id)" class="icon-btn remove-btn" title="Удалить">❌</button>
+        <button @click="isDeleting = true" class="icon-btn remove-btn" title="Удалить">❌</button>
       </div>
 
       <EditPlayerModal v-if="isEditing" :playerId="props.id" @close="isEditing = false" />
+      <ConfirmDelete v-if="isDeleting" :itemName="player.name" @close="isDeleting = false" @confirm="raidStore.removePlayer(props.id)" />
    </div>
 </template>
 
