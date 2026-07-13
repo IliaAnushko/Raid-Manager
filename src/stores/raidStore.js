@@ -2,6 +2,7 @@ import { ref, watch } from 'vue'
 import { defineStore } from 'pinia'
 
 export const useRaidStore = defineStore('raid', () => {
+  const selectedRoleFilter = ref('')
   const storedPlayers = localStorage.getItem('players')
   const players = ref(storedPlayers ? JSON.parse(storedPlayers) : [])
 
@@ -27,5 +28,5 @@ export const useRaidStore = defineStore('raid', () => {
    players.value = players.value.map(currentPlayer => currentPlayer.id === updatedPlayer.id ? updatedPlayer : currentPlayer)
   }
 
-  return { players, addPlayer, removePlayer, updatePlayer }
+  return { players, selectedRoleFilter, addPlayer, removePlayer, updatePlayer }
 })

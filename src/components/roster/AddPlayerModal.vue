@@ -3,7 +3,7 @@
 import { ref } from 'vue';
 import { useRaidStore } from '@/stores/raidStore';
 import BaseModal from '../ui/BaseModal.vue';
-import '../assets/main.css';
+import '@/assets/main.css';
 
 const emit = defineEmits(['close'])
 const raidStore = useRaidStore();

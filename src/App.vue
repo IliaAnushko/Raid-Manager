@@ -14,15 +14,11 @@ const currentView = ref('roster');
     <aside class="sidebar">
       <div class="logo">⚔️ Raid Manager</div>
       <nav class="navigation">
-        <button 
-          @click="currentView = 'roster'" 
-          :class="{ active: currentView === 'roster' }">
+        <button @click="currentView = 'roster'" :class="{ active: currentView === 'roster' }">
           Списки рейда
         </button>
-        <button 
-          @click="currentView = 'event'" 
-          :class="{ active: currentView === 'event' }">
-          Осады
+        <button @click="currentView = 'event'" :class="{ active: currentView === 'event' }">
+          Осады и события
         </button>
       </nav>
     </aside>

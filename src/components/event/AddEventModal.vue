@@ -2,7 +2,7 @@
    import { ref } from 'vue'
    import { useEventStore } from '@/stores/eventStore'
    import BaseModal from '../ui/BaseModal.vue';
-   import '../assets/main.css';
+   import '@/assets/main.css';
 
    const emit = defineEmits(['close'])
    const eventStore = useEventStore()
