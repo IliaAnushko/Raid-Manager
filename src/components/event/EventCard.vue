@@ -42,7 +42,7 @@ const attendanceStats = computed(() => {
   let color = "#f39c12"; // yellow
   //prettier-ignore
   if (percentage === 0) color = "#4b4b4b"; // gray
-  else if (percentage >= 100) color = "#2ecc71"; // green
+  else if (percentage >= 90) color = "#2ecc71"; // green
   else if (percentage >= 50) color = "#f1c40f"; // bright yellow
   else color = "#e67e22"; // orange
 
