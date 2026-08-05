@@ -1,58 +1,65 @@
 <script setup>
+import { ref } from "vue";
+import { computed } from "vue";
+import { useRaidStore } from "@/stores/raidStore";
+import EditPlayerModal from "./EditPlayerModal.vue";
+import ConfirmDelete from "../ui/ConfirmDelete.vue";
+import PlayerAttendenceModal from "./PlayerAttendenceModal.vue";
 
-import { ref } from 'vue';
-import { computed } from 'vue';
-import { useRaidStore } from '@/stores/raidStore';
-import EditPlayerModal from './EditPlayerModal.vue';
-import ConfirmDelete from '../ui/ConfirmDelete.vue';
-
-const raidStore = useRaidStore()
-const isEditing = ref(false)
-const isDeleting = ref(false)
+const raidStore = useRaidStore();
+const isEditing = ref(false);
+const isDeleting = ref(false);
+const isAttendance = ref(false);
 
 const props = defineProps({
-   id: {
+  id: {
     type: Number,
-    required: true
-   }
+    required: true,
+  },
 });
 
 const player = computed(() => {
-   return raidStore.players.find(player => player.id === props.id)
-})
-
+  return raidStore.players.find((player) => player.id === props.id);
+});
 </script>
 
 <template>
-   <div v-if="player" class="player-card">
-      
-      <!-- Информация об игроке -->
-      <div class="player-info">
-        <div class="main-info">
-          <strong class="name">{{ player.name }}</strong>
-          <span v-if="player.discord" class="discord">{{ player.discord }}</span>
-        </div>
-        <div class="tags">
-          <span class="tag class-tag">{{ player.characterClass }}</span>
-          <template v-if="Array.isArray(player.role)">
-            <span v-for="r in player.role" :key="r" class="tag role-tag">{{ r }}</span>
-          </template>
-          <template v-else-if="player.role">
-            <span class="tag role-tag">{{ player.role }}</span>
-          </template>
-          <span class="tag skill-tag">{{ player.skill }}</span>
-        </div>
+  <div v-if="player" class="player-card">
+    <!-- Информация об игроке -->
+    <div class="player-info">
+      <div class="main-info">
+        <strong class="name">{{ player.name }}</strong>
+        <span v-if="player.discord" class="discord">{{ player.discord }}</span>
       </div>
-
-      <!-- Кнопки действий -->
-      <div class="card-actions">
-        <button @click="isEditing = true" class="icon-btn edit-btn" title="Редактировать">✏️</button>
-        <button @click="isDeleting = true" class="icon-btn remove-btn" title="Удалить">❌</button>
+      <div class="tags">
+        <span class="tag class-tag">{{ player.characterClass }}</span>
+        <template v-if="Array.isArray(player.role)">
+          <span v-for="r in player.role" :key="r" class="tag role-tag">{{ r }}</span>
+        </template>
+        <template v-else-if="player.role">
+          <span class="tag role-tag">{{ player.role }}</span>
+        </template>
+        <span class="tag skill-tag">{{ player.skill }}</span>
       </div>
+    </div>
 
-      <EditPlayerModal v-if="isEditing" :playerId="props.id" @close="isEditing = false" />
-      <ConfirmDelete v-if="isDeleting" :itemName="player.name" @close="isDeleting = false" @confirm="raidStore.removePlayer(props.id)" />
-   </div>
+    <!-- Кнопки действий -->
+    <div class="card-actions">
+      <button @click="isAttendance = true" class="icon-btn attendance-btn" title="Явка">📅</button>
+      <button @click="isEditing = true" class="icon-btn edit-btn" title="Редактировать">✏️</button>
+      <button @click="isDeleting = true" class="icon-btn remove-btn" title="Удалить">❌</button>
+    </div>
+
+    <EditPlayerModal v-if="isEditing" :playerId="props.id" @close="isEditing = false" />
+    <ConfirmDelete
+      v-if="isDeleting"
+      :itemName="player.name"
+      @close="isDeleting = false"
+      @confirm="raidStore.removePlayer(props.id)"
+    />
+
+    <PlayerAttendenceModal v-if="isAttendance" :playerId="props.id" @close="isAttendance = false" />
+  </div>
 </template>
 
 <style scoped>
@@ -112,9 +119,18 @@ const player = computed(() => {
   letter-spacing: 0.5px;
 }
 
-.class-tag { background: rgba(110, 142, 251, 0.15); color: #8fa5fb; }
-.role-tag { background: rgba(167, 119, 227, 0.15); color: #bd9af0; }
-.skill-tag { background: rgba(255, 255, 255, 0.1); color: #ccc; }
+.class-tag {
+  background: rgba(110, 142, 251, 0.15);
+  color: #8fa5fb;
+}
+.role-tag {
+  background: rgba(167, 119, 227, 0.15);
+  color: #bd9af0;
+}
+.skill-tag {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ccc;
+}
 
 .card-actions {
   display: flex;
@@ -148,5 +164,10 @@ const player = computed(() => {
 .edit-btn:hover {
   background: rgba(33, 150, 243, 0.2);
   border-color: rgba(33, 150, 243, 0.5);
+}
+
+.attendance-btn:hover {
+  background: rgba(167, 119, 227, 0.2);
+  border-color: rgba(167, 119, 227, 0.5);
 }
 </style>
