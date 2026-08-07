@@ -1,56 +1,66 @@
 <script setup>
+import { computed } from "vue";
+import { useEventStore } from "@/stores/eventStore";
+import { useRaidStore } from "@/stores/raidStore";
+import BaseModal from "../ui/BaseModal.vue";
 
-import { computed } from 'vue';
-import { useEventStore } from '@/stores/eventStore';
-import { useRaidStore } from '@/stores/raidStore';
-import BaseModal from '../ui/BaseModal.vue';
-
-const emit = defineEmits(['close'])
-const eventStore = useEventStore()
-const raidStore = useRaidStore()
+const emit = defineEmits(["close"]);
+const eventStore = useEventStore();
+const raidStore = useRaidStore();
 
 const props = defineProps({
-   eventId: {
-      type: [String, Number],
-      required: true
-   }
+  eventId: {
+    type: [String, Number],
+    required: true,
+  },
 });
 
 const event = computed(() => {
-   return eventStore.events.find(event => event.id === props.eventId)
-})
+  return eventStore.events.find((event) => event.id === props.eventId);
+});
 
 const activePlayers = computed(() => {
-   return raidStore.players.filter(player => player.status === 'active')
-})
+  return raidStore.players.filter((player) => player.status === "active");
+});
 
 function setStatus(playerId, status) {
-   eventStore.updateDetails(props.eventId, playerId, status);
+  eventStore.updateDetails(props.eventId, playerId, status);
 }
 
 function checkStatus(playerId, targetStatus) {
   return event.value.attendance?.[playerId] === targetStatus;
 }
-
 </script>
 
 <template>
-   <div>
+  <div>
     <BaseModal v-if="event" :title="event.name" @close="emit('close')">
-       <div class="players-list">
-         <div v-for="player in activePlayers" :key="player.id" class="player-row">
-           <span class="player-name">{{ player.name }}</span>
-           <div class="attendance-buttons">
-             <button @click="setStatus(player.id, 'present')" :class="{ 'is-active': checkStatus(player.id, 'present') }">✅ Пришел</button>
+      <div class="players-list">
+        <div v-for="player in activePlayers" :key="player.id" class="player-row">
+          <span class="player-name">{{ player.name }}</span>
+          <div class="attendance-buttons">
+            <button
+              @click="setStatus(player.id, 'present')"
+              :class="{ 'is-active': checkStatus(player.id, 'present') }"
+            >
+              ✅ Пришел
+            </button>
 
-             <button @click="setStatus(player.id, 'rejected')" :class="{ 'is-active': checkStatus(player.id, 'rejected') }">🚫 Не допущен</button>
+            <button
+              @click="setStatus(player.id, 'rejected')"
+              :class="{ 'is-active': checkStatus(player.id, 'rejected') }"
+            >
+              🚫 Не допущен
+            </button>
 
-             <button @click="setStatus(player.id, 'absent')" :class="{ 'is-active': checkStatus(player.id, 'absent') }">❌ Не пришел</button>
-           </div>
+            <button @click="setStatus(player.id, 'absent')" :class="{ 'is-active': checkStatus(player.id, 'absent') }">
+              ❌ Не пришел
+            </button>
+          </div>
+        </div>
       </div>
-    </div>
     </BaseModal>
-   </div>
+  </div>
 </template>
 
 <style scoped>

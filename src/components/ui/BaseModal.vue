@@ -2,11 +2,11 @@
 defineProps({
   title: {
     type: String,
-    default: ''
-  }
+    default: "",
+  },
 });
 
-const emit = defineEmits(['close']);
+const emit = defineEmits(["close"]);
 </script>
 
 <template>
@@ -38,7 +38,9 @@ const emit = defineEmits(['close']);
 .modal-content {
   background: #16161e;
   border: 1px solid rgba(167, 119, 227, 0.3);
-  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.6), inset 0 0 20px rgba(167, 119, 227, 0.05);
+  box-shadow:
+    0 15px 50px rgba(0, 0, 0, 0.6),
+    inset 0 0 20px rgba(167, 119, 227, 0.05);
   border-radius: 16px;
   padding: 40px;
   width: 90vw;
@@ -52,8 +54,14 @@ const emit = defineEmits(['close']);
 }
 
 @keyframes modal-pop {
-  0% { transform: scale(0.9); opacity: 0; }
-  100% { transform: scale(1); opacity: 1; }
+  0% {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 h3 {

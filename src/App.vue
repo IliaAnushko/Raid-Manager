@@ -1,11 +1,9 @@
 <script setup>
+import { ref } from "vue";
+import RosterView from "./views/RosterView.vue";
+import EventView from "./views/EventView.vue";
 
-import { ref } from 'vue';
-import RosterView from './views/RosterView.vue'
-import EventView from './views/EventView.vue'
-
-const currentView = ref('roster');
-
+const currentView = ref("roster");
 </script>
 
 <template>
@@ -14,12 +12,8 @@ const currentView = ref('roster');
     <aside class="sidebar">
       <div class="logo">⚔️ Raid Manager</div>
       <nav class="navigation">
-        <button @click="currentView = 'roster'" :class="{ active: currentView === 'roster' }">
-          Списки рейда
-        </button>
-        <button @click="currentView = 'event'" :class="{ active: currentView === 'event' }">
-          Осады и события
-        </button>
+        <button @click="currentView = 'roster'" :class="{ active: currentView === 'roster' }">Списки рейда</button>
+        <button @click="currentView = 'event'" :class="{ active: currentView === 'event' }">Осады и события</button>
       </nav>
     </aside>
 
@@ -32,18 +26,23 @@ const currentView = ref('roster');
 </template>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap");
 
 body {
   margin: 0;
   padding: 0;
   background-color: #0f0f13; /* Глубокий темный фон */
   color: #e0e0e0;
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 
-h1, h2, h3 { color: #ffffff; margin: 0; }
+h1,
+h2,
+h3 {
+  color: #ffffff;
+  margin: 0;
+}
 
 .app-layout {
   display: flex;

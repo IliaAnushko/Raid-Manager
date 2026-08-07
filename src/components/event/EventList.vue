@@ -9,11 +9,7 @@ const emit = defineEmits(["close"]);
 
 <template>
   <div class="event-list">
-    <EventCard
-      v-for="event in eventStore.events"
-      :key="event.id"
-      :id="event.id"
-    />
+    <EventCard v-for="event in eventStore.events" :key="event.id" :id="event.id" />
   </div>
 </template>
 
