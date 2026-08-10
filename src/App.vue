@@ -2,6 +2,7 @@
 import { ref } from "vue";
 import RosterView from "./views/RosterView.vue";
 import EventView from "./views/EventView.vue";
+import StatsView from "./views/StatsView.vue";
 
 const currentView = ref("roster");
 </script>
@@ -14,6 +15,7 @@ const currentView = ref("roster");
       <nav class="navigation">
         <button @click="currentView = 'roster'" :class="{ active: currentView === 'roster' }">Списки рейда</button>
         <button @click="currentView = 'event'" :class="{ active: currentView === 'event' }">Осады и события</button>
+        <button @click="currentView = 'stats'" :class="{ active: currentView === 'stats' }">Статистика рейда</button>
       </nav>
     </aside>
 
@@ -21,6 +23,7 @@ const currentView = ref("roster");
     <main class="content">
       <RosterView v-if="currentView === 'roster'" />
       <EventView v-if="currentView === 'event'" />
+      <StatsView v-if="currentView === 'stats'" />
     </main>
   </div>
 </template>
