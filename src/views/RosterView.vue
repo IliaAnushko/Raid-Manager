@@ -1,8 +1,13 @@
 <script setup>
 import { ref } from "vue";
+import { useAuthStore } from "@/stores/authStore";
 import AddPlayerModal from "@/components/roster/AddPlayerModal.vue";
 import SearchPlayerModal from "@/components/roster/SearchPlayerModal.vue";
+import MigrationBanner from "@/components/roster/MigrationBanner.vue";
 import PlayerList from "@/components/roster/PlayerList.vue";
+import PageHeader from "@/components/layout/PageHeader.vue";
+
+const authStore = useAuthStore();
 
 const isModalOpen = ref(false);
 const isSearchOpen = ref(false);
@@ -10,20 +15,16 @@ const isSearchOpen = ref(false);
 
 <template>
   <div class="view-container">
-    <!-- Верхняя шапка -->
-    <div class="header-section">
-      <div class="header-spacer"></div>
-      <h1 class="page-title">Списки рейда</h1>
-      <div class="header-actions">
-        <button class="add-btn" @click="isModalOpen = true">Добавить игрока</button>
-        <button class="search-btn" @click="isSearchOpen = true">🔍 Поиск</button>
-      </div>
-    </div>
+    <PageHeader title="Списки рейда">
+      <button v-if="authStore.isOfficer" class="add-btn" @click="isModalOpen = true">Добавить игрока</button>
+      <button class="search-btn" @click="isSearchOpen = true">🔍 Поиск</button>
+    </PageHeader>
+
+    <MigrationBanner />
 
     <AddPlayerModal v-if="isModalOpen" @close="isModalOpen = false" />
     <SearchPlayerModal v-if="isSearchOpen" @close="isSearchOpen = false" />
 
-    <!-- Списки друг под другом -->
     <div class="lists-container">
       <PlayerList title="Активные" filterStatus="active" />
       <PlayerList title="АФК" filterStatus="afk" />
@@ -41,7 +42,7 @@ const isSearchOpen = ref(false);
 
 .lists-container {
   display: flex;
-  flex-direction: column; /* Списки друг под другом, как ты и просил */
+  flex-direction: column;
   gap: 40px;
 }
 </style>

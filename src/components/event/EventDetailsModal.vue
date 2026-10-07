@@ -2,9 +2,11 @@
 import { computed } from "vue";
 import { useEventStore } from "@/stores/eventStore";
 import { useRaidStore } from "@/stores/raidStore";
+import { useAuthStore } from "@/stores/authStore.js";
 import BaseModal from "../ui/BaseModal.vue";
 
 const emit = defineEmits(["close"]);
+const authStore = useAuthStore();
 const eventStore = useEventStore();
 const raidStore = useRaidStore();
 
@@ -42,6 +44,7 @@ function checkStatus(playerId, targetStatus) {
             <button
               @click="setStatus(player.id, 'present')"
               :class="{ 'is-active': checkStatus(player.id, 'present') }"
+              :disabled="!authStore.isOfficer"
             >
               ✅ Пришел
             </button>
@@ -49,11 +52,16 @@ function checkStatus(playerId, targetStatus) {
             <button
               @click="setStatus(player.id, 'rejected')"
               :class="{ 'is-active': checkStatus(player.id, 'rejected') }"
+              :disabled="!authStore.isOfficer"
             >
               🚫 Не допущен
             </button>
 
-            <button @click="setStatus(player.id, 'absent')" :class="{ 'is-active': checkStatus(player.id, 'absent') }">
+            <button 
+            @click="setStatus(player.id, 'absent')" 
+            :class="{ 'is-active': checkStatus(player.id, 'absent') }"
+            :disabled="!authStore.isOfficer"
+            >
               ❌ Не пришел
             </button>
           </div>

@@ -4,18 +4,23 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "concurrently -n \"SERVER,CLIENT\" -c \"magenta,cyan\" \"npm run server\" \"npm run client\"",
+    "server": "node server/index.js",
+    "client": "vite",
     "build": "vite build",
     "preview": "vite preview"
   },
   "dependencies": {
+    "axios": "^1.20.0",
     "chart.js": "^4.5.1",
     "pinia": "^3.0.4",
     "vue": "^3.5.38",
-    "vue-chartjs": "^5.3.4"
+    "vue-chartjs": "^5.3.4",
+    "vue-router": "^5.4.0"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^6.0.7",
+    "concurrently": "^10.0.5",
     "vite": "^8.0.16",
     "vite-plugin-vue-devtools": "^8.1.2"
   },

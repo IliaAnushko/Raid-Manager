@@ -1,0 +1,57 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// 1. Таблица аккаунтов (пользователи)
+model User {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  username     String   @unique
+  passwordHash String
+  role         String   @default("MEMBER") // ADMIN, OFFICER, MEMBER
+  createdAt    DateTime @default(now())
+}
+
+// 2. Таблица участников рейда (персонажи)
+model Player {
+  id             Int          @id @default(autoincrement())
+  name           String
+  discord        String?
+  characterClass String
+  roles          String       // JSON-строка со списком ролей: '["ПЛ", "Саппорт"]'
+  skill          String
+  status         String       @default("active") // active, afk, former
+  createdAt      DateTime     @default(now())
+  attendances    Attendance[]
+}
+
+// 3. Таблица осад и событий
+model Event {
+  id          String       @id @default(uuid())
+  name        String
+  date        String
+  time        String
+  quantity    Int?
+  description String?
+  createdAt   DateTime     @default(now())
+  attendances Attendance[]
+}
+
+// 4. Таблица посещаемости (связывает игрока и событие)
+model Attendance {
+  id        String   @id @default(uuid())
+  eventId   String
+  playerId  Int
+  status    String   // 'present' | 'absent' | 'rejected'
+  updatedAt DateTime @updatedAt
+
+  event     Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  player    Player   @relation(fields: [playerId], references: [id], onDelete: Cascade)
+
+  @@unique([eventId, playerId]) // У одного игрока на одном событии только один статус
+}

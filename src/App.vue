@@ -1,105 +1,32 @@
 <script setup>
-import { ref } from "vue";
-import RosterView from "./views/RosterView.vue";
-import EventView from "./views/EventView.vue";
-import StatsView from "./views/StatsView.vue";
+import { onMounted } from "vue";
+import { useAuthStore } from "./stores/authStore";
+import { useRaidSync } from "./composables/useRaidSync";
+import AppSidebar from "./components/layout/AppSidebar.vue";
 
-const currentView = ref("roster");
+const authStore = useAuthStore();
+useRaidSync();
+
+onMounted(() => {
+  authStore.checkAuth();
+});
 </script>
 
 <template>
   <div class="app-layout">
-    <!-- Боковое меню -->
-    <aside class="sidebar">
-      <div class="logo">⚔️ Raid Manager</div>
-      <nav class="navigation">
-        <button @click="currentView = 'roster'" :class="{ active: currentView === 'roster' }">Списки рейда</button>
-        <button @click="currentView = 'event'" :class="{ active: currentView === 'event' }">Осады и события</button>
-        <button @click="currentView = 'stats'" :class="{ active: currentView === 'stats' }">Статистика рейда</button>
-      </nav>
-    </aside>
+    <AppSidebar v-if="authStore.isAuthenticated" />
 
-    <!-- Основной контент -->
-    <main class="content">
-      <RosterView v-if="currentView === 'roster'" />
-      <EventView v-if="currentView === 'event'" />
-      <StatsView v-if="currentView === 'stats'" />
+    <main class="content" :class="{ 'auth-page': !authStore.isAuthenticated }">
+      <router-view />
     </main>
   </div>
 </template>
 
-<style>
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap");
-
-body {
-  margin: 0;
-  padding: 0;
-  background-color: #0f0f13; /* Глубокий темный фон */
-  color: #e0e0e0;
-  font-family: "Inter", sans-serif;
-  -webkit-font-smoothing: antialiased;
-}
-
-h1,
-h2,
-h3 {
-  color: #ffffff;
-  margin: 0;
-}
-
+<style scoped>
 .app-layout {
   display: flex;
   height: 100vh;
   overflow: hidden;
-}
-
-.sidebar {
-  width: 250px;
-  background-color: #16161e;
-  padding: 30px 20px;
-  display: flex;
-  flex-direction: column;
-  border-right: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.logo {
-  font-size: 1.5rem;
-  font-weight: 800;
-  color: #a777e3;
-  margin-bottom: 40px;
-  text-align: center;
-  letter-spacing: 1px;
-}
-
-.navigation {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.navigation button {
-  padding: 15px 20px;
-  background: transparent;
-  color: #a0a0a0;
-  border: none;
-  border-radius: 8px;
-  text-align: left;
-  font-size: 1rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.navigation button:hover {
-  background: rgba(255, 255, 255, 0.05);
-  color: #fff;
-}
-
-.navigation button.active {
-  background: linear-gradient(135deg, rgba(110, 142, 251, 0.15), rgba(167, 119, 227, 0.15));
-  color: #a777e3;
-  border-left: 4px solid #a777e3;
-  border-radius: 4px 8px 8px 4px;
 }
 
 .content {
@@ -107,5 +34,9 @@ h3 {
   padding: 40px 60px;
   overflow-y: auto;
   position: relative;
+}
+
+.content.auth-page {
+  padding: 0;
 }
 </style>

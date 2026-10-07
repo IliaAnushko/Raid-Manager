@@ -1,3 +1,20 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap");
+
+/* Глобальная основа сайта */
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #0f0f13;
+  color: #e0e0e0;
+  font-family: "Inter", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3 {
+  color: #ffffff;
+  margin: 0;
+}
+
 /* Глобальные стили для форм в модалках (AddPlayer, EditPlayer, AddEvent, EditEvent) */
 
 /* Base Input Styles */

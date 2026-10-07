@@ -2,11 +2,14 @@
 import { ref, computed } from "vue";
 import { useEventStore } from "@/stores/eventStore";
 import { useRaidStore } from "@/stores/raidStore";
-import { formatDate } from "../utils/UtilityFunctions.js";
+import { useAuthStore } from "@/stores/authStore";
+import { formatDate } from "@/utils/date";
+import { getAttendanceProgressColor, calculateAttendancePercent } from "@/utils/attendance";
 import EditEventModal from "./EditEventModal.vue";
 import EventDetailsModal from "./EventDetailsModal.vue";
 import ConfirmDelete from "../ui/ConfirmDelete.vue";
 
+const authStore = useAuthStore();
 const eventStore = useEventStore();
 const raidStore = useRaidStore();
 const isEditing = ref(false);
@@ -37,14 +40,8 @@ const attendanceStats = computed(() => {
     });
   }
 
-  const percentage = totalExpected > 0 ? Math.min((present / totalExpected) * 100, 100) : 0;
-
-  let color = "#f39c12"; // yellow
-  //prettier-ignore
-  if (percentage === 0) color = "#4b4b4b"; // gray
-  else if (percentage >= 90) color = "#2ecc71"; // green
-  else if (percentage >= 50) color = "#f1c40f"; // bright yellow
-  else color = "#e67e22"; // orange
+  const percentage = calculateAttendancePercent(present, totalExpected);
+  const color = getAttendanceProgressColor(percentage);
 
   return {
     present,
@@ -91,9 +88,9 @@ const attendanceStats = computed(() => {
     <div class="card-actions">
       <button @click="isDetailsOpen = true" class="icon-btn details-btn" title="Подробности">👁️</button>
 
-      <button @click="isEditing = true" class="icon-btn edit-btn" title="Редактировать">✏️</button>
+      <button v-if="authStore.isOfficer" @click="isEditing = true" class="icon-btn edit-btn" title="Редактировать">✏️</button>
 
-      <button @click="isDeleting = true" class="icon-btn remove-btn" title="Удалить">❌</button>
+      <button v-if="authStore.isOfficer" @click="isDeleting = true" class="icon-btn remove-btn" title="Удалить">❌</button>
     </div>
 
     <EditEventModal v-if="isEditing" :eventId="props.id" @close="isEditing = false" />

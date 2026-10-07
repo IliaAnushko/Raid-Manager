@@ -2,10 +2,12 @@
 import { ref } from "vue";
 import { computed } from "vue";
 import { useRaidStore } from "@/stores/raidStore";
+import { useAuthStore } from "@/stores/authStore";
 import EditPlayerModal from "./EditPlayerModal.vue";
 import ConfirmDelete from "../ui/ConfirmDelete.vue";
 import PlayerAttendenceModal from "./PlayerAttendenceModal.vue";
 
+const authStore = useAuthStore();
 const raidStore = useRaidStore();
 const isEditing = ref(false);
 const isDeleting = ref(false);
@@ -46,8 +48,8 @@ const player = computed(() => {
     <!-- Кнопки действий -->
     <div class="card-actions">
       <button @click="isAttendance = true" class="icon-btn attendance-btn" title="Явка">📅</button>
-      <button @click="isEditing = true" class="icon-btn edit-btn" title="Редактировать">✏️</button>
-      <button @click="isDeleting = true" class="icon-btn remove-btn" title="Удалить">❌</button>
+      <button v-if="authStore.isOfficer" @click="isEditing = true" class="icon-btn edit-btn" title="Редактировать">✏️</button>
+      <button v-if="authStore.isOfficer" @click="isDeleting = true" class="icon-btn remove-btn" title="Удалить">❌</button>
     </div>
 
     <EditPlayerModal v-if="isEditing" :playerId="props.id" @close="isEditing = false" />

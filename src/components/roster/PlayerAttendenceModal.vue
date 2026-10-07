@@ -1,14 +1,9 @@
 <script setup>
-import { computed } from "vue";
-import { useEventStore } from "@/stores/eventStore";
-import { useRaidStore } from "@/stores/raidStore";
-import { formatDate } from "../utils/UtilityFunctions.js";
+import { usePlayerAttendance } from "@/composables/usePlayerAttendance";
+import { formatDate } from "@/utils/date";
+import { getStatusIcon, getStatusColor } from "@/utils/attendance";
 import BaseModal from "../ui/BaseModal.vue";
-
 const emit = defineEmits(["close"]);
-const eventStore = useEventStore();
-const raidStore = useRaidStore();
-
 const props = defineProps({
   playerId: {
     type: Number,
@@ -16,81 +11,7 @@ const props = defineProps({
   },
 });
 
-const player = computed(() => {
-  return raidStore.players.find((p) => p.id === props.playerId);
-});
-
-const attendanceStats = computed(() => {
-  const monthAgo = new Date();
-  monthAgo.setMonth(monthAgo.getMonth() - 1);
-
-  const filteredEvents = [...eventStore.events]
-    .filter((e) => e.attendance?.[props.playerId] != null && new Date(e.date) >= monthAgo)
-    .sort((a, b) => new Date(b.date) - new Date(a.date));
-
-  let present = 0;
-  let absent = 0;
-  let rejected = 0;
-
-  for (const event of filteredEvents) {
-    const status = event.attendance[props.playerId];
-
-    if (status === "present") present++;
-    else if (status === "absent") absent++;
-    else if (status === "rejected") rejected++;
-  }
-
-  const total = filteredEvents.length;
-  const attendancePercent = total > 0 ? Math.round((present / total) * 100) : 0;
-
-  let bestStreak = 0;
-  let streak = 0;
-
-  for (const event of filteredEvents) {
-    const status = event.attendance[props.playerId];
-
-    if (status === "present") {
-      streak++;
-      if (streak > bestStreak) bestStreak = streak;
-    } else {
-      streak = 0;
-    }
-  }
-
-  const currentStreak = streak;
-
-  const lastEvent = filteredEvents[0];
-  const lastEventStatus = lastEvent?.attendance?.[props.playerId];
-
-  const historyEvents = filteredEvents.slice(0, 7);
-
-  return {
-    total,
-    present,
-    absent,
-    rejected,
-    attendancePercent,
-    currentStreak,
-    bestStreak,
-    lastEvent,
-    lastEventStatus,
-    historyEvents,
-  };
-});
-
-// Вспомогательные функции для отображения статусов
-function statusIcon(status) {
-  if (status === "present") return "✅";
-  else if (status === "absent") return "❌";
-  else if (status === "rejected") return "🚫";
-}
-
-function statusColor(status) {
-  // prettier-ignore
-  if (status === "present") return "#2ecc71"; // зеленый
-  else if (status === "absent") return "#e74c3c"; // красный
-  else if (status === "rejected") return "#e67e22"; // оранжевый
-}
+const { player, attendanceStats } = usePlayerAttendance(() => props.playerId);
 </script>
 
 <template>
@@ -138,7 +59,7 @@ function statusColor(status) {
           <div class="stat-row">
             <span class="stat-label">Последнее событие</span>
             <span class="stat-value">
-              {{ formatDate(attendanceStats.lastEvent?.date) }} {{ statusIcon(attendanceStats.lastEventStatus) }}
+              {{ formatDate(attendanceStats.lastEvent?.date) }} {{ getStatusIcon(attendanceStats.lastEventStatus) }}
             </span>
           </div>
         </div>
@@ -152,9 +73,9 @@ function statusColor(status) {
             v-for="(event, index) in attendanceStats.historyEvents"
             :key="index"
             class="history-icon"
-            :style="{ borderColor: statusColor(event.attendance[props.playerId]) }"
+            :style="{ borderColor: getStatusColor(event.attendance[props.playerId]) }"
           >
-            {{ statusIcon(event.attendance[props.playerId]) }}
+            {{ getStatusIcon(event.attendance[props.playerId]) }}
           </div>
         </div>
       </div>
